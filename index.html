@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YOUR NAME — Nexe-Agent Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0d14;
+    --surface: #0f1628;
+    --surface2: #131b2b;
+    --border: #1e2d42;
+    --border2: #1a2236;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #4ade80;
+    --green-bg: #14352a;
+    --green-border: #166534;
+    --yellow: #fbbf24;
+    --yellow-bg: #3a2a0d;
+    --yellow-border: #78350f;
+    --red: #f87171;
+    --red-bg: #3a0d0d;
+    --red-border: #7f1d1d;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #0f1628 0%, #0a0d14 70%);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    border-bottom: 0.5px solid var(--border2);
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 auto 1.25rem;
+    font-family: 'Space Mono', monospace;
+    /* ✏️ Change initials below */
+  }
+
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    margin-bottom: 1rem;
+    /* ✏️ Change name below */
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .pill svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ── STATS ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 1.75rem 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.1rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 6px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 0 2rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 2rem 0 1rem;
+    font-family: 'Space Mono', monospace;
+    border-bottom: 0.5px solid var(--border2);
+    padding-bottom: 0.6rem;
+  }
+
+  /* ── TASK GRID ── */
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .task-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+    transition: border-color 0.2s;
+  }
+
+  .task-card:hover { border-color: #2d4a6a; }
+
+  .task-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+
+  .task-id {
+    font-size: 10px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .badge-beginner     { background: var(--green-bg);  color: var(--green);  border: 0.5px solid var(--green-border); }
+  .badge-intermediate { background: var(--yellow-bg); color: var(--yellow); border: 0.5px solid var(--yellow-border); }
+  .badge-advanced     { background: var(--red-bg);    color: var(--red);    border: 0.5px solid var(--red-border); }
+
+  .task-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.45rem;
+    line-height: 1.3;
+  }
+
+  .task-desc {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+  }
+
+  .task-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+    font-size: 10px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+    font-size: 11px;
+    color: #334155;
+    font-family: 'Space Mono', monospace;
+    border-top: 0.5px solid var(--border2);
+    margin-top: 1rem;
+  }
+
+  footer a {
+    color: #475569;
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HERO — edit name, initials, ID, email, github
+     ═══════════════════════════════════════ -->
+<div class="hero">
+
+  <!-- ✏️ Change YN to your initials e.g. RK or HA -->
+  <div class="avatar">YN</div>
+
+  <!-- ✏️ Change to your full name -->
+  <h1>Your Name</h1>
+
+  <div class="hero-meta">
+
+    <!-- ✏️ Change NXAB000000 to your student ID -->
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/></svg>
+      NXAB000000
+    </span>
+
+    <!-- ✏️ Change email -->
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+      youremail@gmail.com
+    </span>
+
+    <!-- ✏️ Change GitHub username -->
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub-Username
+    </span>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     STATS
+     ═══════════════════════════════════════ -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-num">6</div>
+    <div class="stat-label">Projects</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">6</div>
+    <div class="stat-label">On GitHub</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TASKS
+     ═══════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Internship Tasks — Nexe-Agent · 2025</div>
+  <div class="tasks-grid">
+
+    <!-- TASK 01 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_01</span>
+        <span class="badge badge-beginner">Beginner</span>
+      </div>
+      <div class="task-name">Tool-Calling Agent</div>
+      <div class="task-desc">Function calling, JSON responses &amp; real-time tool execution with robust error handling.</div>
+      <div class="task-tags">
+        <span class="tag">tools</span>
+        <span class="tag">JSON</span>
+        <span class="tag">errors</span>
+      </div>
+    </div>
+
+    <!-- TASK 02 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_02</span>
+        <span class="badge badge-beginner">Beginner</span>
+      </div>
+      <div class="task-name">AI Calculator Agent</div>
+      <div class="task-desc">Math operations with persistent session memory and structured output formatting.</div>
+      <div class="task-tags">
+        <span class="tag">math</span>
+        <span class="tag">memory</span>
+        <span class="tag">output</span>
+      </div>
+    </div>
+
+    <!-- TASK 03 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_03</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <div class="task-name">Multi-Tool Agent</div>
+      <div class="task-desc">Autonomous web search, database persistence, and automated email dispatch.</div>
+      <div class="task-tags">
+        <span class="tag">search</span>
+        <span class="tag">database</span>
+        <span class="tag">email</span>
+      </div>
+    </div>
+
+    <!-- TASK 04 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_04</span>
+        <span class="badge badge-intermediate">Intermediate</span>
+      </div>
+      <div class="task-name">RAG Assistant</div>
+      <div class="task-desc">Document ingestion, vector store retrieval and context-aware AI answers.</div>
+      <div class="task-tags">
+        <span class="tag">RAG</span>
+        <span class="tag">vectors</span>
+        <span class="tag">docs</span>
+      </div>
+    </div>
+
+    <!-- TASK 05 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_05</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <div class="task-name">Business Agent</div>
+      <div class="task-desc">Multi-step autonomous reasoning, task planning pipeline and execution logs.</div>
+      <div class="task-tags">
+        <span class="tag">reasoning</span>
+        <span class="tag">planning</span>
+        <span class="tag">logs</span>
+      </div>
+    </div>
+
+    <!-- TASK 06 -->
+    <div class="task-card">
+      <div class="task-top">
+        <span class="task-id">TASK_06</span>
+        <span class="badge badge-advanced">Advanced</span>
+      </div>
+      <div class="task-name">Multi-Agent System</div>
+      <div class="task-desc">Orchestrated agent network with communication layer and task delegation protocol.</div>
+      <div class="task-tags">
+        <span class="tag">agents</span>
+        <span class="tag">comms</span>
+        <span class="tag">delegation</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FOOTER — edit name and ID
+     ═══════════════════════════════════════ -->
+<footer>
+  <!-- ✏️ Change name and ID -->
+  Your Name &nbsp;·&nbsp; NXAB000000 &nbsp;·&nbsp; Nexe Agent Submission Dashboard
+</footer>
+
+</body>
+</html>
